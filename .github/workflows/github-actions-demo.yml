@@ -2,7 +2,7 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -16,3 +16,17 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "We are leaving the setup stage"
+     
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "We are in the build stage"
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "We are in the test stage"
+      - name: Test my action 
+        uses: ./.github/actions/base
