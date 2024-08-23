@@ -26,7 +26,12 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      file-path:
+        file-name: [14, 16]
     steps:
       - run: echo "We are in the test stage"
       - name: Test my action 
         uses: ./.github/actions/base
+        with:
+          file-path: ${{ file-path.file-name }}
